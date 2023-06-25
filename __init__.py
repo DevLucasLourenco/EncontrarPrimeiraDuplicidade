@@ -1,13 +1,14 @@
 class Duplicidade():
 
-    def __init__(self, lista: list[list]) -> None:
+    def __init__(self, lista: list[list],break_primeira_duplicidade=True) -> None:
+        self.flag = break_primeira_duplicidade
         self.lista_tratada = list()
-        self.lista = lista
+        self.__lista = lista
         self.encontrar_duplicadas()
 
 
     def encontrar_duplicadas(self) -> None:
-        for i, item in enumerate(self.lista):
+        for i, item in enumerate(self.__lista):
 
             apoio = list()
             duplicata = list()
@@ -17,7 +18,9 @@ class Duplicidade():
                     apoio.append(each)
                 else:
                     duplicata.append(each)
-                    break
+                    if self.flag:
+                        break
+                    
 
             self.lista_tratada.append(Duplicidade.__if_lista_duplicata_vazia(duplicata))
         
@@ -52,3 +55,11 @@ if __name__ == "__main__":
     
     # output:
     # >>> [[None], [9], [2], [8], [8], [2], [2], [1], [1], [2], [5], [None]]
+
+    ##############################
+    
+    t2 = Duplicidade(lista, break_primeira_duplicidade=False)
+    print(t2.lista_tratada)
+
+    # output:
+    # [[None], [9, 9, 1, 8], [2, 6], [8, 7, 3], [8, 8, 1], [2, 1, 1, 9], [2, 10, 5, 10, 1], [1, 1, 1, 1], [1, 5, 7], [2, 2, 1], [5, 1, 8, 8, 7], [None]]
